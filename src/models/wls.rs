@@ -1,4 +1,3 @@
-use std::ptr::null;
 use crate::models::point::Point;
 
 pub struct Wls {
@@ -58,10 +57,12 @@ impl Wls {
             sum_of_weights_by_x_squared += x_i_by_w_i * x_i;
         }
 
-        let dividend = sum_of_weights * sum_of_x_by_y_by_weights - sum_of_x_by_weights*sum_of_y_by_weights;
-        let divisor = sum_of_weights* sum_of_weights_by_x_squared - sum_of_x_by_weights * sum_of_x_by_weights;
+        let dividend =
+            sum_of_weights * sum_of_x_by_y_by_weights - sum_of_x_by_weights * sum_of_y_by_weights;
+        let divisor = sum_of_weights * sum_of_weights_by_x_squared
+            - sum_of_x_by_weights * sum_of_x_by_weights;
         if divisor == 0.0 {
-            return None
+            return None;
         }
         let slope = dividend / divisor;
         let intercept = (sum_of_y_by_weights - slope * sum_of_x_by_weights) / sum_of_weights;
