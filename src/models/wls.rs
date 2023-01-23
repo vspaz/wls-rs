@@ -6,6 +6,6 @@ pub struct Wls {
 
 impl Wls {
     pub fn populate_weights(capacity: usize, value: f64) -> Vec<f64> {
-        return  vec![value; capacity];
+        vec![value; capacity]
     }
 }
