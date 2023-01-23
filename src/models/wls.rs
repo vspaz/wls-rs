@@ -5,7 +5,11 @@ pub struct Wls {
 }
 
 impl Wls {
-    pub fn populate_weights(capacity: usize, value: f64) -> Vec<f64> {
+    fn populate_weights(capacity: usize, value: f64) -> Vec<f64> {
         vec![value; capacity]
+    }
+
+    fn assert_have_same_size(size_one: usize, size_two: usize) {
+        assert_eq!(size_one, size_two)
     }
 }
