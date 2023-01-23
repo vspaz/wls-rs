@@ -11,4 +11,8 @@ impl Point {
     pub fn get_intercept(&self) -> f64 {
         return self.intercept;
     }
+
+    pub fn get_slope(&self) -> f64 {
+        return self.slope;
+    }
 }
