@@ -24,8 +24,8 @@ pub fn new(x: Vec<f64>, y: Vec<f64>, w: Option<Vec<f64>>) -> Wls {
     let mut weights: Vec<f64> = vec![];
 
     assert_have_same_size(x_size, y_size);
-    if w.is_some() {
-        weights = w.unwrap();
+    if let Some(w) = w {
+        weights = w;
         assert_have_same_size(x.len(), weights.len());
     }
     assert_have_size_greater_than_two(x.len());
@@ -44,10 +44,10 @@ impl Wls {
         let mut sum_of_x_by_weights: f64 = 0.0;
         let mut sum_of_y_by_weights: f64 = 0.0;
 
-        let mut x_i: f64 = 0.0;
-        let mut y_i: f64 = 0.0;
-        let mut w_i: f64 = 0.0;
-        let mut x_i_by_w_i = 0.0;
+        let mut x_i: f64;
+        let mut y_i: f64;
+        let mut w_i: f64;
+        let mut x_i_by_w_i: f64;
 
         for i in 0..self.w.len() {
             x_i = self.x[i];
