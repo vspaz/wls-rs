@@ -39,39 +39,39 @@ impl Wls {
     }
 
     pub fn fit_linear_regression(&self) -> Option<Point> {
-        let mut sum_of_weights: f64 = 0.0;
-        let mut sum_of_weights_by_x_squared: f64 = 0.0;
-        let mut sum_of_x_by_y_by_weights: f64 = 0.0;
-        let mut sum_of_x_by_weights: f64 = 0.0;
-        let mut sum_of_y_by_weights: f64 = 0.0;
+        let mut total_of_weights: f64 = 0.0;
+        let mut total_of_products_of_weights_and_x_squared: f64 = 0.0;
+        let mut total_of_products_of_x_and_y_and_weights: f64 = 0.0;
+        let mut total_of_products_of_xi_and_wi: f64 = 0.0;
+        let mut total_of_products_of_y_and_weights: f64 = 0.0;
 
         let mut xi: f64;
         let mut yi: f64;
         let mut wi: f64;
-        let mut xi_by_wi: f64;
+        let mut product_of_xi_and_wi: f64;
 
         for i in 0..self.x.len() {
             xi = self.x[i];
             yi = self.y[i];
             wi = self.w[i];
 
-            sum_of_weights += wi;
-            xi_by_wi = xi * wi;
-            sum_of_x_by_weights += xi_by_wi;
-            sum_of_x_by_y_by_weights += xi_by_wi * yi;
-            sum_of_y_by_weights += yi * wi;
-            sum_of_weights_by_x_squared += xi_by_wi * xi;
+            total_of_weights += wi;
+            product_of_xi_and_wi = xi * wi;
+            total_of_products_of_xi_and_wi += product_of_xi_and_wi;
+            total_of_products_of_x_and_y_and_weights += product_of_xi_and_wi * yi;
+            total_of_products_of_y_and_weights += yi * wi;
+            total_of_products_of_weights_and_x_squared += product_of_xi_and_wi * xi;
         }
 
         let dividend =
-            sum_of_weights * sum_of_x_by_y_by_weights - sum_of_x_by_weights * sum_of_y_by_weights;
-        let divisor = sum_of_weights * sum_of_weights_by_x_squared
-            - sum_of_x_by_weights * sum_of_x_by_weights;
+            total_of_weights * total_of_products_of_x_and_y_and_weights - total_of_products_of_xi_and_wi * total_of_products_of_y_and_weights;
+        let divisor = total_of_weights * total_of_products_of_weights_and_x_squared
+            - total_of_products_of_xi_and_wi * total_of_products_of_xi_and_wi;
         if divisor == 0.0 {
             return None;
         }
         let slope = dividend / divisor;
-        let intercept = (sum_of_y_by_weights - slope * sum_of_x_by_weights) / sum_of_weights;
+        let intercept = (total_of_products_of_y_and_weights - slope * total_of_products_of_xi_and_wi) / total_of_weights;
         Some(Point::new(intercept, slope))
     }
 }
