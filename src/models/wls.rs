@@ -1,9 +1,9 @@
 use crate::models::point::Point;
 
 pub struct Wls {
-    x: Vec<f64>,
-    y: Vec<f64>,
-    w: Vec<f64>,
+    x_points: Vec<f64>,
+    y_points: Vec<f64>,
+    weights: Vec<f64>,
 }
 
 fn populate_weights(capacity: usize, value: f64) -> Vec<f64> {
@@ -19,22 +19,26 @@ fn assert_have_size_greater_than_two(size_one: usize) {
 }
 
 impl Wls {
-    pub fn new(x: Vec<f64>, y: Vec<f64>, w: Option<Vec<f64>>) -> Wls {
-        let x_size = x.len().to_owned();
-        let y_size = x.len().to_owned();
-        let mut weights: Vec<f64> = vec![];
+    pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Wls {
+        let x_points_size = x_points.len().to_owned();
+        let y_points_size = x_points.len().to_owned();
+        let mut weights_normalized: Vec<f64> = vec![];
 
-        assert_have_same_size(x_size, y_size);
-        if let Some(w) = w {
-            weights = w;
-            assert_have_same_size(x.len(), weights.len());
+        assert_have_same_size(x_points_size, y_points_size);
+        if let Some(weights) = weights {
+            weights_normalized = weights;
+            assert_have_same_size(x_points.len(), weights.len());
         }
-        assert_have_size_greater_than_two(x.len());
-        let size = x.len().to_owned();
+        assert_have_size_greater_than_two(x_points.len());
+        let size = x_points.len().to_owned();
         if weights.is_empty() {
-            weights = populate_weights(size, 1.0);
+            weights_normalized = populate_weights(size, 1.0);
         }
-        Wls { x, y, w: weights }
+        Wls {
+            x_points,
+            y_points,
+            weights: weights_normalized,
+        }
     }
 
     pub fn fit_linear_regression(&self) -> Option<Point> {
@@ -49,10 +53,10 @@ impl Wls {
         let mut wi: f64;
         let mut product_of_xi_and_wi: f64;
 
-        for i in 0..self.x.len() {
-            xi = self.x[i];
-            yi = self.y[i];
-            wi = self.w[i];
+        for i in 0..self.x_points.len() {
+            xi = self.x_points[i];
+            yi = self.y_points[i];
+            wi = self.weights[i];
 
             sum_of_weights += wi;
             product_of_xi_and_wi = xi * wi;
