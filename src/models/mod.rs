@@ -1,2 +1,2 @@
-mod point;
-mod wls;
+pub mod point;
+pub mod wls;
