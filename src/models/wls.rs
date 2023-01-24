@@ -1,6 +1,5 @@
 use crate::models::point::Point;
 
-
 pub struct Wls {
     x: Vec<f64>,
     y: Vec<f64>,
@@ -63,15 +62,17 @@ impl Wls {
             total_of_products_of_weights_and_x_squared += product_of_xi_and_wi * xi;
         }
 
-        let dividend =
-            total_of_weights * total_of_products_of_x_and_y_and_weights - total_of_products_of_xi_and_wi * total_of_products_of_y_and_weights;
+        let dividend = total_of_weights * total_of_products_of_x_and_y_and_weights
+            - total_of_products_of_xi_and_wi * total_of_products_of_y_and_weights;
         let divisor = total_of_weights * total_of_products_of_weights_and_x_squared
             - total_of_products_of_xi_and_wi * total_of_products_of_xi_and_wi;
         if divisor == 0.0 {
             return None;
         }
         let slope = dividend / divisor;
-        let intercept = (total_of_products_of_y_and_weights - slope * total_of_products_of_xi_and_wi) / total_of_weights;
+        let intercept = (total_of_products_of_y_and_weights
+            - slope * total_of_products_of_xi_and_wi)
+            / total_of_weights;
         Some(Point::new(intercept, slope))
     }
 }
