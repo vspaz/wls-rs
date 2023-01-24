@@ -15,7 +15,7 @@ fn assert_have_same_size(size_one: usize, size_two: usize) {
 }
 
 fn assert_have_size_greater_than_two(size_one: usize) {
-    assert!(size_one > 2)
+    assert!(size_one >= 2)
 }
 
 impl Wls {
@@ -27,11 +27,11 @@ impl Wls {
         assert_have_same_size(x_points_size, y_points_size);
         if let Some(weights) = weights {
             weights_normalized = weights;
-            assert_have_same_size(x_points.len(), weights.len());
+            assert_have_same_size(x_points.len(), weights_normalized.len());
         }
         assert_have_size_greater_than_two(x_points.len());
         let size = x_points.len().to_owned();
-        if weights.is_empty() {
+        if weights_normalized.is_empty() {
             weights_normalized = populate_weights(size, 1.0);
         }
         Wls {
@@ -92,5 +92,15 @@ mod tests {
         let point = wls.fit_linear_regression().unwrap();
         assert!(0.000001 > 2.14285714 - point.get_intercept());
         assert_eq!(0.25, point.get_slope());
+    }
+
+    #[test]
+    fn test_horizontal_line_ok() {
+        let x = vec![0.0, 1.0];
+        let y = vec![10.0, 10.0];
+        let wls = Wls::new(x, y, None);
+        let point = wls.fit_linear_regression().unwrap();
+        assert_eq!(10.0, point.get_intercept());
+        assert_eq!(0.0, point.get_slope());
     }
 }
