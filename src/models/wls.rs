@@ -88,8 +88,10 @@ mod tests {
     fn test_wls_model_with_stable_weights_ok() {
         let x = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
         let y = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
+
         let wls = Wls::new(x, y, None);
         let point = wls.fit_linear_regression().unwrap();
+
         assert!(1.0e-6 > 2.14285714 - point.get_intercept());
         assert_eq!(0.25, point.get_slope());
     }
@@ -98,8 +100,10 @@ mod tests {
     fn test_horizontal_line_ok() {
         let x = vec![0.0, 1.0];
         let y = vec![10.0, 10.0];
+
         let wls = Wls::new(x, y, None);
         let point = wls.fit_linear_regression().unwrap();
+
         assert_eq!(10.0, point.get_intercept());
         assert_eq!(0.0, point.get_slope());
     }
