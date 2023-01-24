@@ -90,7 +90,7 @@ mod tests {
         let y = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
         let wls = Wls::new(x, y, None);
         let point = wls.fit_linear_regression().unwrap();
-        assert!(0.000001 > 2.14285714 - point.get_intercept());
+        assert!(1.0e-6 > 2.14285714 - point.get_intercept());
         assert_eq!(0.25, point.get_slope());
     }
 
