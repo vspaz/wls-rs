@@ -1,5 +1,6 @@
 use crate::models::point::Point;
 
+
 pub struct Wls {
     x: Vec<f64>,
     y: Vec<f64>,
@@ -18,25 +19,25 @@ fn assert_have_size_greater_than_two(size_one: usize) {
     assert!(size_one > 2)
 }
 
-pub fn new(x: Vec<f64>, y: Vec<f64>, w: Option<Vec<f64>>) -> Wls {
-    let x_size = x.len().to_owned();
-    let y_size = x.len().to_owned();
-    let mut weights: Vec<f64> = vec![];
-
-    assert_have_same_size(x_size, y_size);
-    if let Some(w) = w {
-        weights = w;
-        assert_have_same_size(x.len(), weights.len());
-    }
-    assert_have_size_greater_than_two(x.len());
-    let size = x.len().to_owned();
-    if weights.is_empty() {
-        weights = populate_weights(size, 1.0);
-    }
-    Wls { x, y, w: weights }
-}
-
 impl Wls {
+    pub fn new(x: Vec<f64>, y: Vec<f64>, w: Option<Vec<f64>>) -> Wls {
+        let x_size = x.len().to_owned();
+        let y_size = x.len().to_owned();
+        let mut weights: Vec<f64> = vec![];
+
+        assert_have_same_size(x_size, y_size);
+        if let Some(w) = w {
+            weights = w;
+            assert_have_same_size(x.len(), weights.len());
+        }
+        assert_have_size_greater_than_two(x.len());
+        let size = x.len().to_owned();
+        if weights.is_empty() {
+            weights = populate_weights(size, 1.0);
+        }
+        Wls { x, y, w: weights }
+    }
+
     pub fn fit_linear_regression(&self) -> Option<Point> {
         let mut sum_of_weights: f64 = 0.0;
         let mut sum_of_weights_by_x_squared: f64 = 0.0;
@@ -44,22 +45,22 @@ impl Wls {
         let mut sum_of_x_by_weights: f64 = 0.0;
         let mut sum_of_y_by_weights: f64 = 0.0;
 
-        let mut x_i: f64;
-        let mut y_i: f64;
-        let mut w_i: f64;
-        let mut x_i_by_w_i: f64;
+        let mut xi: f64;
+        let mut yi: f64;
+        let mut wi: f64;
+        let mut xi_by_wi: f64;
 
-        for i in 0..self.w.len() {
-            x_i = self.x[i];
-            y_i = self.y[i];
-            w_i = self.w[i];
+        for i in 0..self.x.len() {
+            xi = self.x[i];
+            yi = self.y[i];
+            wi = self.w[i];
 
-            sum_of_weights += w_i;
-            x_i_by_w_i = x_i * w_i;
-            sum_of_x_by_weights += x_i_by_w_i;
-            sum_of_x_by_y_by_weights += x_i_by_w_i * y_i;
-            sum_of_y_by_weights += y_i * w_i;
-            sum_of_weights_by_x_squared += x_i_by_w_i * x_i;
+            sum_of_weights += wi;
+            xi_by_wi = xi * wi;
+            sum_of_x_by_weights += xi_by_wi;
+            sum_of_x_by_y_by_weights += xi_by_wi * yi;
+            sum_of_y_by_weights += yi * wi;
+            sum_of_weights_by_x_squared += xi_by_wi * xi;
         }
 
         let dividend =
@@ -72,5 +73,20 @@ impl Wls {
         let slope = dividend / divisor;
         let intercept = (sum_of_y_by_weights - slope * sum_of_x_by_weights) / sum_of_weights;
         Some(Point::new(intercept, slope))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::models::wls::Wls;
+
+    #[test]
+    fn test_wls_model_with_stable_weights_ok() {
+        let x = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
+        let y = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
+        let wls = Wls::new(x, y, None);
+        let point = wls.fit_linear_regression().unwrap();
+        assert!(0.000001 > 2.14285714 - point.get_intercept());
+        assert_eq!(0.25, point.get_slope());
     }
 }
