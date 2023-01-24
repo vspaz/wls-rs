@@ -19,16 +19,21 @@ fn assert_have_size_greater_than_two(size_one: usize) {
 }
 
 pub fn new(x: Vec<f64>, y: Vec<f64>, w: Option<Vec<f64>>) -> Wls {
-    assert_have_same_size(x.len(), y.len());
+    let x_size = x.len().to_owned();
+    let y_size = x.len().to_owned();
+    let mut weights: Vec<f64> = vec![];
+
+    assert_have_same_size(x_size, y_size);
     if w.is_some() {
-        assert_have_same_size(x.len(), w.len());
+        weights = w.unwrap();
+        assert_have_same_size(x.len(), weights.len());
     }
     assert_have_size_greater_than_two(x.len());
-    return Wls {
-        x,
-        y,
-        w: w.or_else(populate_weights(x.len(), 1.0)).unwrap(),
-    };
+    let size = x.len().to_owned();
+    if weights.is_empty() {
+        weights = populate_weights(size, 1.0);
+    }
+    Wls { x, y, w: weights }
 }
 
 impl Wls {
@@ -45,9 +50,9 @@ impl Wls {
         let mut x_i_by_w_i = 0.0;
 
         for i in 0..self.w.len() {
-            x_i = self.x(i);
-            y_i = self.y(i);
-            w_i = self.w(i);
+            x_i = self.x[i];
+            y_i = self.y[i];
+            w_i = self.w[i];
 
             sum_of_weights += w_i;
             x_i_by_w_i = x_i * w_i;
@@ -66,6 +71,6 @@ impl Wls {
         }
         let slope = dividend / divisor;
         let intercept = (sum_of_y_by_weights - slope * sum_of_x_by_weights) / sum_of_weights;
-        Option(Point::new(intercept, slope))
+        Some(Point::new(intercept, slope))
     }
 }
