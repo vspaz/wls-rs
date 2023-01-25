@@ -116,4 +116,16 @@ mod tests {
         let wls = Wls::new(x, y, None);
         assert!(wls.fit_linear_regression().is_none());
     }
+
+    #[test]
+    fn test_run_uphill_ok() {
+        let x = vec![0.0, 1.0];
+        let y = vec![0.0, 1.0];
+
+        let wls = Wls::new(x, y, None);
+        let point = wls.fit_linear_regression().unwrap();
+
+        assert_eq!(0.0, point.get_intercept());
+        assert_eq!(1.0, point.get_slope());
+    }
 }
