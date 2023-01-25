@@ -114,6 +114,6 @@ mod tests {
         let y = vec![0.0, 1.0];
 
         let wls = Wls::new(x, y, None);
-       assert!(wls.fit_linear_regression().is_none());
+        assert!(wls.fit_linear_regression().is_none());
     }
 }
