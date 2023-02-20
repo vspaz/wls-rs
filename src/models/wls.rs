@@ -80,6 +80,19 @@ mod tests {
     use crate::models::wls::Wls;
 
     #[test]
+    fn test_wls_model_with_weights_ok() {
+        let x = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
+        let y = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
+        let weights = vec![1.0, 2.0, 3.0, 1.0, 8.0, 1.0, 5.0];
+
+        let wls = Wls::new(x, y, Some(weights));
+        let point = wls.fit_linear_regression().unwrap();
+
+        assert_almost_equal(2.14285714, point.get_intercept(), 1.0e-6);
+        assert_almost_equal(0.150862, point.get_slope(), 1.0e-6);
+    }
+
+    #[test]
     fn test_wls_model_with_stable_weights_ok() {
         let x = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
         let y = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
