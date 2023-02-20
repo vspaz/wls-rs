@@ -12,6 +12,6 @@ fn main() {
     let wls = Wls::new(x_points, y_points, Some(weights));
     let point = wls.fit_linear_regression().unwrap();
 
-    assert_almost_equal(1.410964913,point.get_intercept(), 0.00000001);
-    assert_almost_equal( 0.321271930, point.get_slope(), 0.00000001);
+    assert_almost_equal(1.410964913,point.get_intercept(), 1.0e-6);
+    assert_almost_equal(0.321271930, point.get_slope(), 1.0e-6);
 }

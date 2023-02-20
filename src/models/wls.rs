@@ -1,4 +1,5 @@
 use crate::models::point::Point;
+use crate::asserts::asserts::{assert_have_same_size, assert_have_size_greater_than_two};
 
 pub struct Wls {
     x_points: Vec<f64>,
@@ -8,14 +9,6 @@ pub struct Wls {
 
 fn populate_weights(capacity: usize, value: f64) -> Vec<f64> {
     vec![value; capacity]
-}
-
-fn assert_have_same_size(size_one: usize, size_two: usize) {
-    assert_eq!(size_one, size_two)
-}
-
-fn assert_have_size_greater_than_two(size_one: usize) {
-    assert!(size_one >= 2)
 }
 
 
@@ -83,6 +76,7 @@ impl Wls {
 
 #[cfg(test)]
 mod tests {
+    use crate::asserts::asserts::{assert_almost_equal, assert_true};
     use crate::models::wls::Wls;
 
     #[test]
@@ -93,7 +87,7 @@ mod tests {
         let wls = Wls::new(x, y, None);
         let point = wls.fit_linear_regression().unwrap();
 
-        assert!(1.0e-6 > 2.14285714 - point.get_intercept());
+        assert_almost_equal(2.14285714, point.get_intercept(), 1.0e-6);
         assert_eq!(0.25, point.get_slope());
     }
 
@@ -115,7 +109,7 @@ mod tests {
         let y = vec![0.0, 1.0];
 
         let wls = Wls::new(x, y, None);
-        assert!(wls.fit_linear_regression().is_none());
+        assert_true(wls.fit_linear_regression().is_none());
     }
 
     #[test]
