@@ -18,6 +18,7 @@ fn assert_have_size_greater_than_two(size_one: usize) {
     assert!(size_one >= 2)
 }
 
+
 impl Wls {
     pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Wls {
         let x_points_size = x_points.len().to_owned();
