@@ -81,11 +81,11 @@ mod tests {
 
     #[test]
     fn test_wls_model_with_weights_ok() {
-        let x = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
-        let y = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
+        let x_points = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
+        let y_points = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
         let weights = vec![1.0, 2.0, 3.0, 1.0, 8.0, 1.0, 5.0];
 
-        let wls = Wls::new(x, y, Some(weights));
+        let wls = Wls::new(x_points, y_points, Some(weights));
         let point = wls.fit_linear_regression().unwrap();
 
         assert_almost_equal(2.14285714, point.get_intercept(), 1.0e-6);
@@ -94,10 +94,10 @@ mod tests {
 
     #[test]
     fn test_wls_model_with_stable_weights_ok() {
-        let x = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
-        let y = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
+        let x_points = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
+        let y_points = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
 
-        let wls = Wls::new(x, y, None);
+        let wls = Wls::new(x_points, y_points, None);
         let point = wls.fit_linear_regression().unwrap();
 
         assert_almost_equal(2.14285714, point.get_intercept(), 1.0e-6);
@@ -106,10 +106,10 @@ mod tests {
 
     #[test]
     fn test_horizontal_line_ok() {
-        let x = vec![0.0, 1.0];
-        let y = vec![10.0, 10.0];
+        let x_points = vec![0.0, 1.0];
+        let y_points = vec![10.0, 10.0];
 
-        let wls = Wls::new(x, y, None);
+        let wls = Wls::new(x_points, y_points, None);
         let point = wls.fit_linear_regression().unwrap();
 
         assert_eq!(10.0, point.get_intercept());
@@ -118,19 +118,19 @@ mod tests {
 
     #[test]
     fn test_vertical_line_ok() {
-        let x = vec![1.0, 1.0];
-        let y = vec![0.0, 1.0];
+        let x_points = vec![1.0, 1.0];
+        let y_points = vec![0.0, 1.0];
 
-        let wls = Wls::new(x, y, None);
+        let wls = Wls::new(x_points, y_points, None);
         assert_true(wls.fit_linear_regression().is_none());
     }
 
     #[test]
     fn test_run_uphill_ok() {
-        let x = vec![0.0, 1.0];
-        let y = vec![0.0, 1.0];
+        let x_points = vec![0.0, 1.0];
+        let y_points = vec![0.0, 1.0];
 
-        let wls = Wls::new(x, y, None);
+        let wls = Wls::new(x_points, y_points, None);
         let point = wls.fit_linear_regression().unwrap();
 
         assert_eq!(0.0, point.get_intercept());
@@ -139,10 +139,10 @@ mod tests {
 
     #[test]
     fn test_run_downhill_ok() {
-        let x = vec![1.0, 0.0];
-        let y = vec![0.0, 1.0];
+        let x_points = vec![1.0, 0.0];
+        let y_points = vec![0.0, 1.0];
 
-        let wls = Wls::new(x, y, None);
+        let wls = Wls::new(x_points, y_points, None);
         let point = wls.fit_linear_regression().unwrap();
 
         assert_eq!(1.0, point.get_intercept());
