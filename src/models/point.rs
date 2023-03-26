@@ -4,8 +4,8 @@ pub struct Point {
 }
 
 impl Point {
-    pub fn new(intercept: f64, slope: f64) -> Point {
-        Point { intercept, slope }
+    pub fn new(intercept: f64, slope: f64) -> Self {
+       Self { intercept, slope }
     }
 
     pub fn get_intercept(&self) -> f64 {
