@@ -11,12 +11,6 @@ fn populate_weights(capacity: &Vec<f64>, value: f64) -> Vec<f64> {
     vec![value; capacity.len()]
 }
 
-pub fn assert_model_can_be_fit(wls: &Wls) -> Point {
-    return  match wls.fit_linear_regression() {
-        Some(point) => point,
-        None => panic!("can't fit linear regression"),
-    };
-}
 
 impl Wls {
     pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Wls {
@@ -74,6 +68,7 @@ impl Wls {
         let slope = dividend / divisor;
         let intercept = (sum_of_products_of_y_and_weights - slope * sum_of_products_of_xi_and_wi)
             / sum_of_weights;
+
         Some(Point::new(intercept, slope))
     }
 }
@@ -82,7 +77,14 @@ impl Wls {
 mod tests {
     use crate::asserts::asserts::{assert_almost_equal, assert_true};
     use crate::models::point::Point;
-    use crate::models::wls::{assert_model_can_be_fit, Wls};
+    use crate::models::wls::Wls;
+
+    pub fn assert_model_can_be_fit(wls: &Wls) -> Point {
+        return match wls.fit_linear_regression() {
+            Some(point) => point,
+            None => panic!("can't fit linear regression"),
+        };
+    }
 
     #[test]
     fn test_wls_model_with_weights_ok() {
