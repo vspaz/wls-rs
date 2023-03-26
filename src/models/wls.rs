@@ -7,8 +7,8 @@ pub struct Wls {
     weights: Vec<f64>,
 }
 
-fn populate_weights(capacity: usize, value: f64) -> Vec<f64> {
-    vec![value; capacity]
+fn populate_weights(capacity: &Vec<f64>, value: f64) -> Vec<f64> {
+    vec![value; capacity.len()]
 }
 
 
@@ -22,9 +22,9 @@ impl Wls {
             assert_have_same_size(&x_points, &weights_normalized);
         }
         assert_have_size_greater_than_two(x_points.len());
-        let size = x_points.len().to_owned();
+
         if weights_normalized.is_empty() {
-            weights_normalized = populate_weights(size, 1.0);
+            weights_normalized = populate_weights(&x_points, 1.0);
         }
         Wls {
             x_points,
