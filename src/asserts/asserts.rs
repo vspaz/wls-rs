@@ -11,6 +11,6 @@ pub fn assert_have_same_size(one: &Vec<f64>, two: &Vec<f64>) {
     assert_eq!(one.len(), two.len())
 }
 
-pub fn assert_have_size_greater_than_two(size_one: usize) {
-    assert!(size_one >= 2)
+pub fn assert_have_size_greater_than_two(one: &Vec<f64>) {
+    assert!(one.len() >= 2)
 }

@@ -21,7 +21,7 @@ impl Wls {
             weights_normalized = weights;
             assert_have_same_size(&x_points, &weights_normalized);
         }
-        assert_have_size_greater_than_two(x_points.len());
+        assert_have_size_greater_than_two(&x_points);
 
         if weights_normalized.is_empty() {
             weights_normalized = populate_weights(&x_points, 1.0);
