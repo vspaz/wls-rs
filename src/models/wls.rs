@@ -11,6 +11,12 @@ fn populate_weights(capacity: &Vec<f64>, value: f64) -> Vec<f64> {
     vec![value; capacity.len()]
 }
 
+pub fn assert_model_can_be_fit(wls: &Wls) -> Point {
+    return  match wls.fit_linear_regression() {
+        Some(point) => point,
+        None => panic!("can't fit linear regression"),
+    };
+}
 
 impl Wls {
     pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Wls {
@@ -76,7 +82,7 @@ impl Wls {
 mod tests {
     use crate::asserts::asserts::{assert_almost_equal, assert_true};
     use crate::models::point::Point;
-    use crate::models::wls::Wls;
+    use crate::models::wls::{assert_model_can_be_fit, Wls};
 
     #[test]
     fn test_wls_model_with_weights_ok() {
@@ -85,11 +91,8 @@ mod tests {
         let weights = vec![1.0, 2.0, 3.0, 1.0, 8.0, 1.0, 5.0];
 
         let wls = Wls::new(x_points, y_points, Some(weights));
-        let point: Point = match wls.fit_linear_regression() {
-            Some(point) => point,
-            None => panic!("can't fit linear regression"),
-        };
 
+        let point: Point = assert_model_can_be_fit(&wls);
         assert_almost_equal(2.14285714, point.get_intercept(), 1.0e-6);
         assert_almost_equal(0.150862, point.get_slope(), 1.0e-6);
     }
@@ -100,11 +103,8 @@ mod tests {
         let y_points = vec![1.0, 3.0, 4.0, 5.0, 2.0, 3.0, 4.0];
 
         let wls = Wls::new(x_points, y_points, None);
-        let point: Point = match wls.fit_linear_regression() {
-            Some(point) => point,
-            None => panic!("can't fit linear regression"),
-        };
 
+        let point: Point = assert_model_can_be_fit(&wls);
         assert_almost_equal(2.14285714, point.get_intercept(), 1.0e-6);
         assert_eq!(0.25, point.get_slope());
     }
@@ -115,11 +115,8 @@ mod tests {
         let y_points = vec![10.0, 10.0];
 
         let wls = Wls::new(x_points, y_points, None);
-        let point: Point = match wls.fit_linear_regression() {
-            Some(point) => point,
-            None => panic!("can't fit linear regression"),
-        };
 
+        let point: Point = assert_model_can_be_fit(&wls);
         assert_eq!(10.0, point.get_intercept());
         assert_eq!(0.0, point.get_slope());
     }
@@ -139,11 +136,8 @@ mod tests {
         let y_points = vec![0.0, 1.0];
 
         let wls = Wls::new(x_points, y_points, None);
-        let point: Point = match wls.fit_linear_regression() {
-            Some(point) => point,
-            None => panic!("can't fit linear regression"),
-        };
 
+        let point: Point = assert_model_can_be_fit(&wls);
         assert_eq!(0.0, point.get_intercept());
         assert_eq!(1.0, point.get_slope());
     }
@@ -154,11 +148,8 @@ mod tests {
         let y_points = vec![0.0, 1.0];
 
         let wls = Wls::new(x_points, y_points, None);
-        let point: Point = match wls.fit_linear_regression() {
-            Some(point) => point,
-            None => panic!("can't fit linear regression"),
-        };
 
+        let point: Point = assert_model_can_be_fit(&wls);
         assert_eq!(1.0, point.get_intercept());
         assert_eq!(-1.0, point.get_slope());
     }
