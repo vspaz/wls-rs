@@ -1,5 +1,5 @@
-use crate::models::point::Point;
 use crate::asserts::asserts::{assert_have_same_size, assert_have_size_greater_than_two};
+use crate::models::point::Point;
 
 pub struct Wls {
     x_points: Vec<f64>,
@@ -10,7 +10,6 @@ pub struct Wls {
 fn populate_weights(capacity: &Vec<f64>, value: f64) -> Vec<f64> {
     vec![value; capacity.len()]
 }
-
 
 impl Wls {
     pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Wls {
