@@ -14,14 +14,12 @@ fn populate_weights(capacity: usize, value: f64) -> Vec<f64> {
 
 impl Wls {
     pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Wls {
-        let x_points_size = x_points.len().to_owned();
-        let y_points_size = x_points.len().to_owned();
         let mut weights_normalized: Vec<f64> = vec![];
 
-        assert_have_same_size(x_points_size, y_points_size);
+        assert_have_same_size(&x_points, &y_points);
         if let Some(weights) = weights {
             weights_normalized = weights;
-            assert_have_same_size(x_points.len(), weights_normalized.len());
+            assert_have_same_size(&x_points, &weights_normalized);
         }
         assert_have_size_greater_than_two(x_points.len());
         let size = x_points.len().to_owned();
