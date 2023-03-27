@@ -12,7 +12,7 @@ fn populate_weights(capacity: &Vec<f64>, value: f64) -> Vec<f64> {
 }
 
 impl Wls {
-    pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Wls {
+    pub fn new(x_points: Vec<f64>, y_points: Vec<f64>, weights: Option<Vec<f64>>) -> Self {
         let mut weights_normalized: Vec<f64> = vec![];
 
         assert_have_same_size(&x_points, &y_points);
@@ -25,7 +25,7 @@ impl Wls {
         if weights_normalized.is_empty() {
             weights_normalized = populate_weights(&x_points, 1.0);
         }
-        Wls {
+        Self {
             x_points,
             y_points,
             weights: weights_normalized,
