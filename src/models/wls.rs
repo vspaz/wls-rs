@@ -1,4 +1,4 @@
-use crate::asserts::asserts::{assert_have_same_size, assert_have_size_greater_than_two};
+use crate::asserts::assert::{assert_have_same_size, assert_have_size_greater_than_two};
 use crate::models::point::Point;
 
 pub struct Wls {
@@ -74,7 +74,7 @@ impl Wls {
 
 #[cfg(test)]
 mod tests {
-    use crate::asserts::asserts::{assert_almost_equal, assert_true};
+    use crate::asserts::assert::{assert_almost_equal, assert_true};
     use crate::models::point::Point;
     use crate::models::wls::Wls;
 

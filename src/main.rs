@@ -1,7 +1,7 @@
 mod asserts;
 mod models;
 
-use crate::asserts::asserts::assert_almost_equal;
+use crate::asserts::assert::assert_almost_equal;
 use crate::models::wls::Wls;
 
 fn main() {
