@@ -74,9 +74,9 @@ impl Wls {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     use crate::asserts::assert::{assert_almost_equal, assert_true};
     use crate::models::point::Point;
-    use crate::models::wls::Wls;
 
     pub fn assert_model_can_be_fit(wls: &Wls) -> Point {
         return match wls.fit_linear_regression() {
