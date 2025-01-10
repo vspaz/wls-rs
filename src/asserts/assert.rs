@@ -7,10 +7,10 @@ pub fn assert_true(condition: bool) {
     assert!(condition)
 }
 
-pub fn assert_have_same_size(items_1: &Vec<f64>, items_2: &Vec<f64>) {
+pub fn assert_have_same_size(items_1: &[f64], items_2: &[f64]) {
     assert_eq!(items_1.len(), items_2.len())
 }
 
-pub fn assert_have_size_greater_than_two(items: &Vec<f64>) {
+pub fn assert_have_size_greater_than_two(items: &[f64]) {
     assert!(items.len() >= 2)
 }

@@ -7,7 +7,7 @@ pub struct Wls {
     weights: Vec<f64>,
 }
 
-fn populate_weights(capacity: &Vec<f64>, value: f64) -> Vec<f64> {
+fn populate_weights(capacity: &[f64], value: f64) -> Vec<f64> {
     vec![value; capacity.len()]
 }
 
