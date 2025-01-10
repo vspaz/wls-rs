@@ -1,8 +1,5 @@
-mod asserts;
-mod models;
-
-use crate::asserts::assert::assert_almost_equal;
-use crate::models::wls::Wls;
+use wls_rs::asserts::assert::assert_almost_equal;
+use wls_rs::models::wls::Wls;
 
 fn main() {
     let x_points = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];

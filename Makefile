@@ -10,6 +10,9 @@ test:
 style-fix:
 	cargo fmt
 
+run-examples:
+	cargo run --example examples
+
 .PHONY: lint
 lint:
 	cargo clippy
