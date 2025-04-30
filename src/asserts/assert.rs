@@ -1,5 +1,5 @@
 pub fn assert_almost_equal(expected: f64, actual: f64, delta: f64) {
-    assert!(delta > expected - actual);
+    assert!(delta > (expected - actual).abs());
 }
 
 #[allow(dead_code)]
