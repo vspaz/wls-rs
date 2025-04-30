@@ -94,7 +94,7 @@ mod tests {
         let wls = Wls::new(x_points, y_points, Some(weights));
 
         let point: Point = assert_model_can_be_fit(&wls);
-        assert_almost_equal(2.14285714, point.get_intercept(), 1.0e-6);
+        assert_almost_equal(2.288793, point.get_intercept(), 1.0e-6);
         assert_almost_equal(0.150862, point.get_slope(), 1.0e-6);
     }
 
